@@ -27,6 +27,29 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+.topbar input{
+  padding: 10px;
+  flex-grow: 1;
+  margin-inline: 15px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  color: white;
+}
+.topbar input::placeholder{
+  color: white;
+  font-size: 18px;
+}
+.topbar button{
+  font-size: 18px;
+  color: white;
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
 
 .topbar i {
   color: white;

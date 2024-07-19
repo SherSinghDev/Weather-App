@@ -9,31 +9,27 @@ function App() {
   let [humidity, setHumidity] = useState(0)
   let [maxtemp, setMaxtemp] = useState(0)
   let [mintemp, setMintemp] = useState(0)
+  let [city,setCity] = useState("mathura")
+  let [toggler,setToggler] = useState(true)
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        'x-rapidapi-key': '800bb29ce7mshafbf033e5549ed4p119bb3jsnc40c54f82f87',
-        'x-rapidapi-host': 'weather-by-api-ninjas.p.rapidapi.com'
-      }
-    };
-    const url = 'https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city=mathura';
-
-    fetch(url, options)
+    const url = `https://api.tomorrow.io/v4/weather/forecast?location=${city}&apikey=BG5O2ad9Uj2QGNfbb29lERNmk60Umgkq`;
+    fetch(url)
       .then((res) => {
         return res.json()
       })
       .then((data) => {
-        console.log(data)
-        let temp = data.temp
+        console.log(data.timelines.daily[0])
+        console.log(data.timelines.daily[0].values)
+        const weather = data.timelines.daily[0].values;
+        let temp = weather.temperatureAvg
         setTemp(temp)
-        let wind = data.wind_speed
+        let wind = weather.windSpeedAvg
         setWind(wind)
-        let humidity = data.humidity
+        let humidity = weather.humidityAvg
         setHumidity(humidity)
-        let maxtemp = data.max_temp
+        let maxtemp = weather.temperatureMax
         setMaxtemp(maxtemp)
-        let mintemp = data.min_temp
+        let mintemp = weather.temperatureMin
         setMintemp(mintemp)
       })
       .catch((error) => {
@@ -41,7 +37,7 @@ function App() {
       })
 
     console.log("hello")
-  }, []);
+  }, [toggler]);
 
 
 
@@ -49,9 +45,9 @@ function App() {
     <>
       <div className="mainbox">
         <div className="topbar">
-          <i className="fa-solid fa-plus"></i>
-          <h6>Mathura</h6>
-          <i className="fa-solid fa-ellipsis-vertical"></i>
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Enter City" onChange={(e)=>setCity(e.target.value)}/>
+          <button onClick={()=>setToggler(!toggler)}>Go</button>
         </div>
         <div className="weather-img">
           <img src={weatherImg} alt="" />
@@ -69,7 +65,7 @@ function App() {
               </div>
             </div>
             <div className="detail">
-            <i class="fa-solid fa-temperature-full"></i>
+              <i className="fa-solid fa-temperature-full"></i>
               <div>
                 <p className='max-temp'>{maxtemp}°</p>
                 <p>Max Temperature</p>
